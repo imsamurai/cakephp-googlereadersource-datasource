@@ -8,6 +8,6 @@
 
 App::uses('HttpSourceModel', 'HttpSource.Model');
 
-class Freebase extends HttpSourceModel {
-    public $name = 'Freebase';
+class GoogleReader extends HttpSourceModel {
+    public $name = 'GoogleReader';
 }

@@ -8,7 +8,7 @@
  */
 require_once dirname(__FILE__) . DS . 'models.php';
 
-class GoogleReader extends CakeTestCase {
+class GoogleReaderTest extends CakeTestCase {
 
     /**
      * GoogleReader Model
@@ -16,6 +16,16 @@ class GoogleReader extends CakeTestCase {
      * @var GoogleReader
      */
     public $GoogleReader = null;
+
+    /**
+     * Specify your credentials
+     *
+     * @var array
+     */
+    private $_credentials = array(
+        'email' => '',
+        'password' => ''
+    );
 
     public function setUp() {
         parent::setUp();
@@ -46,27 +56,41 @@ class GoogleReader extends CakeTestCase {
         $this->GoogleReader = new GoogleReader(false, null, $config_name);
     }
 
-    public function testSearch() {
+    public function testTagList() {
         $this->_loadModel();
-//        $this->GoogleReader->setSource('search');
-//        $params = array(
-//            'fields' => array('mid', 'score'),
-//            'conditions' => array(
-//                'query' => 'apple'
-//            ),
-//            'order' => array(
-//                'score' => 'asc',
-//            ),
-//            'limit' => 3
-//                );
-//
-//        $result = $this->GoogleReader->find('all', $params);
-//
-//        $this->assertCount($params['limit'], $result);
-//        $this->assertArrayHasKey('0', $result);
-//        $this->assertArrayHasKey($this->GoogleReader->name, $result[0]);
-//        $this->assertCount(0, array_diff(array_keys($result[0][$this->GoogleReader->name]), $params['fields']));
+        $this->GoogleReader->setSource('tag/list');
+        $this->GoogleReader->setCredentials($this->_credentials);
+        $params = array(
+            'fields' => array('id', 'sortid'),
+            'limit' => 3
+        );
+
+        $result = $this->GoogleReader->find('all', $params);
+        debug($result);
+
+        $this->assertLessThanOrEqual($params['limit'], count($result));
+        $this->assertArrayHasKey('0', $result);
+        $this->assertArrayHasKey($this->GoogleReader->name, $result[0]);
+        $this->assertCount(0, array_diff(array_keys($result[0][$this->GoogleReader->name]), $params['fields']));
     }
 
+    public function testSubscriptionList() {
+        $this->_loadModel();
+        $this->GoogleReader->setSource('subscription/list');
+        $this->GoogleReader->setCredentials($this->_credentials);
+        $params = array(
+            'fields' => array('id', 'title', 'categories', 'sortid', 'firstitemmsec', 'htmlUrl'),
+            'conditions' => array('order' => 'd'),
+            'limit' => 3
+        );
+
+        $result = $this->GoogleReader->find('all', $params);
+        debug($result);
+
+        $this->assertLessThanOrEqual($params['limit'], count($result));
+        $this->assertArrayHasKey('0', $result);
+        $this->assertArrayHasKey($this->GoogleReader->name, $result[0]);
+        $this->assertCount(0, array_diff(array_keys($result[0][$this->GoogleReader->name]), $params['fields']));
+    }
 
 }
