@@ -22,14 +22,12 @@ class GoogleReaderTest extends CakeTestCase {
      *
      * @var array
      */
-    private $_credentials = array(
-        'email' => '',
-        'password' => ''
-    );
+    private $_credentials = array();
 
     public function setUp() {
         parent::setUp();
         $this->_setConfig();
+        $this->_credentials = Configure::read('GoogleReaderSourceTest.credentials');
     }
 
     protected function _setConfig() {
