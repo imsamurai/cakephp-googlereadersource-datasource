@@ -22,7 +22,7 @@ class GoogleReaderTest extends CakeTestCase {
      *
      * @var array
      */
-    private $_credentials = array();
+    private $_credentials = array( );
 
     public function setUp() {
         parent::setUp();
