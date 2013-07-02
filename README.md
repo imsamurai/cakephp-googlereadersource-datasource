@@ -1,5 +1,8 @@
+#GOOGLE READER REST IN PEACE...
+
+
 GoogleReaderSource Plugin
-=====================
+=========================
 
 CakePHP GoogleReaderSource Plugin with DataSource for Google Reader
 
